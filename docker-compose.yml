@@ -18,7 +18,7 @@ services:
       - NATS_SERVERS=nats://nats-server:4222
 
   products-ms:
-    build: "./products-ms"
+    build: "./products-microservice"
     ports:
       - "${PRODUCTS_SERVICE_PORT}:3001"
     volumes:
@@ -33,7 +33,7 @@ services:
   orders-ms:
     depends_on:
       - orders-db
-    build: "./orders-ms"
+    build: "./orders-microservice"
     ports:
       - "${ORDERS_SERVICE_PORT}:3002"
     volumes:
