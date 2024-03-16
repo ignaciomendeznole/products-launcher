@@ -1,0 +1,57 @@
+version: "3"
+
+services:
+  nats-server:
+    image: nats:latest
+    ports:
+      - "8222:8222"
+
+  client-gateway:
+    build: "./client-gateway"
+    ports:
+      - "${CLIENT_GATEWAY_PORT}:3000"
+    volumes:
+      - ./client-gateway/src:/usr/src/app/src
+    command: yarn start:dev
+    environment:
+      - PORT=3000
+      - NATS_SERVERS=nats://nats-server:4222
+
+  products-ms:
+    build: "./products-ms"
+    ports:
+      - "${PRODUCTS_SERVICE_PORT}:3001"
+    volumes:
+      - ./products-ms/src:/usr/src/app/src
+    command: yarn start:dev
+    environment:
+      - PORT=${PRODUCTS_SERVICE_PORT}
+      - DATABASE_URL=${PRODUCTS_SERVICE_DATABASE_URL}
+      - NATS_SERVERS=${NATS_SERVERS}
+
+  # Orders MS
+  orders-ms:
+    depends_on:
+      - orders-db
+    build: "./orders-ms"
+    ports:
+      - "${ORDERS_SERVICE_PORT}:3002"
+    volumes:
+      - ./orders-ms/src:/usr/src/app/src
+    command: yarn start:dev
+    environment:
+      - PORT=${ORDERS_SERVICE_PORT}
+      - DATABASE_URL=${ORDERS_SERVICE_DATABASE_URL}
+      - NATS_SERVERS=${NATS_SERVERS}
+
+  # Orders DB
+  orders-db:
+    container_name: orders-database
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "${POSTGRES_PORT}:5432"
