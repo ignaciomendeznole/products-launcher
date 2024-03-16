@@ -4,3 +4,6 @@
 [submodule "products-microservice"]
 	path = products-microservice
 	url = git@github.com:ignaciomendeznole/products-microservice.git
+[submodule "client-gateway"]
+	path = client-gateway
+	url = git@github.com:ignaciomendeznole/store-client-gateway.git
