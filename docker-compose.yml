@@ -22,7 +22,7 @@ services:
     ports:
       - "${PRODUCTS_SERVICE_PORT}:3001"
     volumes:
-      - ./products-ms/src:/usr/src/app/src
+      - ./products-microservice/src:/usr/src/app/src
     command: yarn start:dev
     environment:
       - PORT=${PRODUCTS_SERVICE_PORT}
@@ -37,7 +37,7 @@ services:
     ports:
       - "${ORDERS_SERVICE_PORT}:3002"
     volumes:
-      - ./orders-ms/src:/usr/src/app/src
+      - ./orders-microservice/src:/usr/src/app/src
     command: yarn start:dev
     environment:
       - PORT=${ORDERS_SERVICE_PORT}
@@ -55,3 +55,19 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
     ports:
       - "${POSTGRES_PORT}:5432"
+
+  # Payments MS
+  payments-ms:
+    build: "./payments-microservice"
+    ports:
+      - "${PAYMENTS_SERVICE_PORT}:3003"
+    volumes:
+      - ./payments-microservice/src:/usr/src/app/src
+    command: yarn start:dev
+    environment:
+      - PORT=${PAYMENTS_SERVICE_PORT}
+      - NATS_SERVERS=${NATS_SERVERS}
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - STRIPE_SUCCESS_URL=${STRIPE_SUCCESS_URL}
+      - STRIPE_CANCEL_URL=${STRIPE_CANCEL_URL}
+      - STRIPE_ENDPOINT_SECRET=${STRIPE_ENDPOINT_SECRET}
