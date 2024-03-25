@@ -18,6 +18,8 @@ services:
       - NATS_SERVERS=nats://nats-server:4222
 
   auth-microservice:
+    depends_on:
+      - users-db
     build: "./auth-microservice"
     ports:
       - "${AUTH_SERVICE_PORT}:3004"
@@ -27,6 +29,17 @@ services:
     environment:
       - PORT=${AUTH_SERVICE_PORT}
       - NATS_SERVERS=${NATS_SERVERS}
+
+  users-db:
+    container_name: users-database
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB_USERS}
+    ports:
+      - "${POSTGRES_PORT}:5432"
 
   # products-ms:
   #   build: "./products-microservice"
@@ -63,7 +76,7 @@ services:
   #   environment:
   #     POSTGRES_USER: ${POSTGRES_USER}
   #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-  #     POSTGRES_DB: ${POSTGRES_DB}
+  #     POSTGRES_DB: ${POSTGRES_DB_ORDERS}
   #   ports:
   #     - "${POSTGRES_PORT}:5432"
 
