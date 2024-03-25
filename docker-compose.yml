@@ -17,57 +17,68 @@ services:
       - PORT=3000
       - NATS_SERVERS=nats://nats-server:4222
 
-  products-ms:
-    build: "./products-microservice"
+  auth-microservice:
+    build: "./auth-microservice"
     ports:
-      - "${PRODUCTS_SERVICE_PORT}:3001"
+      - "${AUTH_SERVICE_PORT}:3004"
     volumes:
-      - ./products-microservice/src:/usr/src/app/src
+      - ./auth-microservice/src:/usr/src/app/src
     command: yarn start:dev
     environment:
-      - PORT=${PRODUCTS_SERVICE_PORT}
-      - DATABASE_URL=${PRODUCTS_SERVICE_DATABASE_URL}
+      - PORT=${AUTH_SERVICE_PORT}
       - NATS_SERVERS=${NATS_SERVERS}
 
-  # Orders MS
-  orders-ms:
-    depends_on:
-      - orders-db
-    build: "./orders-microservice"
-    ports:
-      - "${ORDERS_SERVICE_PORT}:3002"
-    volumes:
-      - ./orders-microservice/src:/usr/src/app/src
-    command: yarn start:dev
-    environment:
-      - PORT=${ORDERS_SERVICE_PORT}
-      - DATABASE_URL=${ORDERS_SERVICE_DATABASE_URL}
-      - NATS_SERVERS=${NATS_SERVERS}
+  # products-ms:
+  #   build: "./products-microservice"
+  #   ports:
+  #     - "${PRODUCTS_SERVICE_PORT}:3001"
+  #   volumes:
+  #     - ./products-microservice/src:/usr/src/app/src
+  #   command: yarn start:dev
+  #   environment:
+  #     - PORT=${PRODUCTS_SERVICE_PORT}
+  #     - DATABASE_URL=${PRODUCTS_SERVICE_DATABASE_URL}
+  #     - NATS_SERVERS=${NATS_SERVERS}
 
-  # Orders DB
-  orders-db:
-    container_name: orders-database
-    image: postgres:latest
-    restart: always
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-    ports:
-      - "${POSTGRES_PORT}:5432"
+  # # Orders MS
+  # orders-ms:
+  #   depends_on:
+  #     - orders-db
+  #   build: "./orders-microservice"
+  #   ports:
+  #     - "${ORDERS_SERVICE_PORT}:3002"
+  #   volumes:
+  #     - ./orders-microservice/src:/usr/src/app/src
+  #   command: yarn start:dev
+  #   environment:
+  #     - PORT=${ORDERS_SERVICE_PORT}
+  #     - DATABASE_URL=${ORDERS_SERVICE_DATABASE_URL}
+  #     - NATS_SERVERS=${NATS_SERVERS}
 
-  # Payments MS
-  payments-ms:
-    build: "./payments-microservice"
-    ports:
-      - "${PAYMENTS_SERVICE_PORT}:3003"
-    volumes:
-      - ./payments-microservice/src:/usr/src/app/src
-    command: yarn start:dev
-    environment:
-      - PORT=${PAYMENTS_SERVICE_PORT}
-      - NATS_SERVERS=${NATS_SERVERS}
-      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
-      - STRIPE_SUCCESS_URL=${STRIPE_SUCCESS_URL}
-      - STRIPE_CANCEL_URL=${STRIPE_CANCEL_URL}
-      - STRIPE_ENDPOINT_SECRET=${STRIPE_ENDPOINT_SECRET}
+  # # Orders DB
+  # orders-db:
+  #   container_name: orders-database
+  #   image: postgres:latest
+  #   restart: always
+  #   environment:
+  #     POSTGRES_USER: ${POSTGRES_USER}
+  #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  #     POSTGRES_DB: ${POSTGRES_DB}
+  #   ports:
+  #     - "${POSTGRES_PORT}:5432"
+
+  # # Payments MS
+  # payments-ms:
+  #   build: "./payments-microservice"
+  #   ports:
+  #     - "${PAYMENTS_SERVICE_PORT}:3003"
+  #   volumes:
+  #     - ./payments-microservice/src:/usr/src/app/src
+  #   command: yarn start:dev
+  #   environment:
+  #     - PORT=${PAYMENTS_SERVICE_PORT}
+  #     - NATS_SERVERS=${NATS_SERVERS}
+  #     - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+  #     - STRIPE_SUCCESS_URL=${STRIPE_SUCCESS_URL}
+  #     - STRIPE_CANCEL_URL=${STRIPE_CANCEL_URL}
+  #     - STRIPE_ENDPOINT_SECRET=${STRIPE_ENDPOINT_SECRET}

@@ -10,3 +10,6 @@
 [submodule "payments-microservice"]
 	path = payments-microservice
 	url = git@github.com:ignaciomendeznole/payments-microservice.git
+[submodule "auth-microservice"]
+	path = auth-microservice
+	url = git@github.com:ignaciomendeznole/auth-microservice.git
