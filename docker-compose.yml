@@ -29,6 +29,7 @@ services:
     environment:
       - PORT=${AUTH_SERVICE_PORT}
       - DATABASE_URL=${AUTH_SERVICE_DATABASE_URL}
+      - JWT_SECRET=${AUTH_SERVICE_JWT_SECRET}
       - NATS_SERVERS=${NATS_SERVERS}
 
   users-db:
