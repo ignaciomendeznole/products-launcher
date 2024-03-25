@@ -28,6 +28,7 @@ services:
     command: yarn start:dev
     environment:
       - PORT=${AUTH_SERVICE_PORT}
+      - DATABASE_URL=${AUTH_SERVICE_DATABASE_URL}
       - NATS_SERVERS=${NATS_SERVERS}
 
   users-db:
