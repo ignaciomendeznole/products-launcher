@@ -8,7 +8,7 @@ services:
     build:
       context: ./client-gateway
       dockerfile: Dockerfile.prod
-    image: client-gateway-production
+    image: southamerica-west1-docker.pkg.dev/store-microservices-418622/image-registry/client-gateway-production
     ports:
       - "${CLIENT_GATEWAY_PORT}:${CLIENT_GATEWAY_PORT}"
     # volumes:
@@ -19,7 +19,7 @@ services:
       - NATS_SERVERS=${NATS_SERVERS}
 
   auth-microservice:
-    image: auth-microservice-production
+    image: southamerica-west1-docker.pkg.dev/store-microservices-418622/image-registry/auth-microservice-production
     build:
       context: ./auth-microservice
       dockerfile: Dockerfile.prod
@@ -34,7 +34,7 @@ services:
       - NATS_SERVERS=${NATS_SERVERS}
 
   products-microservice:
-    image: products-microservice-production
+    image: southamerica-west1-docker.pkg.dev/store-microservices-418622/image-registry/products-microservice-production
     build:
       context: ./products-microservice
       dockerfile: Dockerfile.prod
@@ -47,6 +47,7 @@ services:
 
   # Orders MS
   orders-microservice:
+    image: southamerica-west1-docker.pkg.dev/store-microservices-418622/image-registry/orders-microservice-production
     build:
       context: ./orders-microservice
       dockerfile: Dockerfile.prod
@@ -61,7 +62,7 @@ services:
 
   # Payments MS
   payments-microservice:
-    image: payments-microservice-production
+    image: southamerica-west1-docker.pkg.dev/store-microservices-418622/image-registry/payments-microservice-production
     build:
       context: ./payments-microservice
       dockerfile: Dockerfile.prod
