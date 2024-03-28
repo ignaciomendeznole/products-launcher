@@ -41,7 +41,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB_USERS}
     ports:
-      - "${POSTGRES_PORT}:5432"
+      - "${POSTGRES_PORT_USERS}:5433"
 
   products-ms:
     build: "./products-microservice"
@@ -80,7 +80,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB_ORDERS}
     ports:
-      - "${POSTGRES_PORT}:5432"
+      - "${POSTGRES_PORT_ORDERS}:5432"
 
   # Payments MS
   payments-ms:
