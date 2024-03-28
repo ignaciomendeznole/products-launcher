@@ -3,8 +3,6 @@ version: "3"
 services:
   nats-server:
     image: nats:latest
-    ports:
-      - "8222:8222"
 
   client-gateway:
     build: "./client-gateway"
@@ -43,7 +41,7 @@ services:
     ports:
       - "${POSTGRES_PORT_USERS}:5433"
 
-  products-ms:
+  products-microservice:
     build: "./products-microservice"
     ports:
       - "${PRODUCTS_SERVICE_PORT}:3001"
@@ -56,7 +54,7 @@ services:
       - NATS_SERVERS=${NATS_SERVERS}
 
   # Orders MS
-  orders-ms:
+  orders-microservice:
     depends_on:
       - orders-db
     build: "./orders-microservice"
@@ -83,7 +81,7 @@ services:
       - "${POSTGRES_PORT_ORDERS}:5432"
 
   # Payments MS
-  payments-ms:
+  payments-microservice:
     build: "./payments-microservice"
     ports:
       - "${PAYMENTS_SERVICE_PORT}:3003"
